@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proyectos y experiencia técnica de Carlos Miguel en Desarrollo Web y Servicios de TI.">
+    <title>Proyectos | Carlos Miguel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS en :root (Paleta Coolors.co) */
+        :root {
+            --color-primary: #1E293B;
+            --color-secondary: #0EA5E9;
+            --color-accent: #F59E0B;
+            --color-bg: #F8FAFC;
+            --color-text: #0F172A;
+            --color-white: #FFFFFF;
+            --color-table-alt: #F1F5F9;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-text);
+            line-height: 1.6;
+            margin: 0;
+            background-color: var(--color-bg);
+            display: flex;
+        }
+
+        aside {
+            width: 60px;
+            background-color: var(--color-primary);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px 5px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            position: fixed;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            z-index: 100;
+        }
+        aside:is(:hover:not(.fixed), .fixed) { width: 250px; }
+        aside h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            text-align: center;
+            white-space: nowrap;
+        }
+        aside h2 i { font-size: 2rem; margin-right: 10px; }
+        aside h2 span, aside nav a span { display: none; }
+        aside:is(:hover:not(.fixed), .fixed) :is(h2, nav a) span { display: inline; }
+        aside nav a {
+            display: flex;
+            align-items: center;
+            color: #e2e8f0;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 6px;
+            transition: background 0.2s ease, transform 0.2s ease;
+            white-space: nowrap;
+        }
+        aside nav a i { margin-right: 15px; font-size: 1.2rem; min-width: 20px; text-align: center; }
+        aside nav a:hover, aside nav a.active {
+            background-color: var(--color-secondary);
+            color: white;
+            transform: translateX(3px);
+        }
+        .pin { text-align: center; cursor: pointer; padding: 10px; }
+        .pin i { transition: color 0.3s, transform 0.3s; }
+        aside.fixed .pin i { color: var(--color-accent); transform: rotate(45deg); }
+
+        /* Contenido Principal Adaptativo */
+        .content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 60px;
+            width: calc(100% - 60px);
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        aside:is(:hover:not(.fixed), .fixed) ~ .content { 
+            margin-left: 250px; 
+            width: calc(100% - 250px);
+        }
+
+        header, main, footer { width: 100%; }
+
+        header {
+            background-color: var(--color-primary);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        header h1 { margin: 0 0 10px 0; font-size: 1.8rem; }
+        header p { margin: 0; opacity: 0.9; }
+
+        main {
+            background: white;
+            padding: 30px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+        }
+        h2 { color: var(--color-primary); margin-top: 0; }
+
+        .cuadro-proyecto {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 4px solid var(--color-secondary);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .cuadro-proyecto:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .cuadro-proyecto h3 { margin-top: 0; color: var(--color-primary); display: flex; align-items: center; gap: 10px; }
+
+        /* ESTILOS DE LA TABLA SEMÁNTICA RESPONSIVE */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin: 20px 0 35px 0;
+        }
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--color-white);
+        }
+        .custom-table caption {
+            font-weight: bold;
+            padding: 12px;
+            color: var(--color-primary);
+            font-size: 1.1em;
+            text-align: left;
+        }
+        .custom-table th {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 14px 18px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+        .custom-table td {
+            padding: 12px 18px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        .custom-table tbody tr:nth-child(even) {
+            background-color: var(--color-table-alt);
+        }
+        .custom-table tbody tr:hover {
+            background-color: rgba(14, 165, 233, 0.12);
+            transition: background-color 0.3s ease;
+        }
+        .custom-table tfoot {
+            font-weight: bold;
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+        }
+        .badge.active { background-color: #10B981; }
+        .badge.pending { background-color: var(--color-accent); }
+
+        /* CARRUSEL CON ROTACIÓN CONTINUA */
+        .carousel-wrapper {
+            position: relative;
+            max-width: 100%;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .carousel-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 15px 10px 25px 10px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-secondary) transparent;
+            width: 100%;
+        }
+
+        .carousel-container::-webkit-scrollbar { height: 8px; }
+        .carousel-container::-webkit-scrollbar-thumb {
+            background: var(--color-secondary);
+            border-radius: 10px;
+        }
+
+        .gallery-card {
+            flex: 0 0 min(300px, 75vw);
+            scroll-snap-align: center;
+            margin: 0;
+            overflow: hidden;
+            border-radius: 12px;
+            background: var(--color-white);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Ícono indicador de zoom al pasar el ratón */
+        .gallery-card::after {
+            content: "\f00e";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            color: white;
+            font-size: 2rem;
+            background: rgba(14, 165, 233, 0.8);
+            padding: 12px 16px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .gallery-card:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .gallery-card figcaption {
+            padding: 14px 15px;
+            font-size: 0.95em;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-align: center;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .carousel-btn:hover {
+            background-color: var(--color-secondary);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-btn.prev { left: -15px; }
+        .carousel-btn.next { right: -15px; }
+
+        /* VENTANA MODAL / LIGHTBOX PARA AMPLIAR LA IMAGEN AL HACER CLIC */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 85%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: contain;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-caption {
+            color: white;
+            margin-top: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--color-secondary);
+        }
+
+        footer { text-align: center; margin-top: 30px; padding: 15px; font-size: 0.9em; color: #718096; }
+
+        @media (max-width: 768px) {
+            .content { 
+                margin-left: 60px !important; 
+                width: calc(100% - 60px) !important;
+            }
+            .carousel-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside id="sidebar">
+        <div class="pin" title="Fijar menú"><i class="fa-solid fa-thumbtack"></i></div>
+        <h2><i class="fa-solid fa-user-graduate"></i> <span>Carlos Miguel</span></h2>
+        <nav>
+            <a href="index.html"><i class="fa-solid fa-house"></i> <span>Inicio</span></a>
+            <a href="sobremi.html"><i class="fa-solid fa-id-card"></i> <span>Sobre mí</span></a>
+            <a href="proyectos.html" class="active"><i class="fa-solid fa-laptop-code"></i> <span>Proyectos</span></a>
+            <a href="galeria.html"><i class="fa-solid fa-images"></i> <span>Galería</span></a>
+            <a href="blog.html"><i class="fa-solid fa-blog"></i> <span>Blog</span></a>
+            <a href="contacto.html"><i class="fa-solid fa-envelope"></i> <span>Contacto</span></a>
+        </nav>
+    </aside>
+
+    <div class="content">
+        <header>
+            <h1>Mis Proyectos</h1>
+            <p>Trabajos destacados en desarrollo de plataformas y servicios de TI</p>
+        </header>
+
+        <main>
+            <!-- TARJETAS DE PROYECTOS -->
+            <div class="cuadro-proyecto">
+                <h3><i class="fa-solid fa-store"></i> Desarrollo Web Comercial</h3>
+                <p>Desarrollo de páginas web dinámicas e interactivas para negocios, permitiéndoles presentar información detallada de sus productos, servicios y métodos de contacto.</p>
+            </div>
+
+            <div class="cuadro-proyecto">
+                <h3><i class="fa-solid fa-book-bookmark"></i> Plataformas Educativas Web</h3>
+                <p>Creación de sitios web informativos orientados a simplificar el aprendizaje y la creación de proyectos digitales para nuevos desarrolladores.</p>
+            </div>
+
+            <!-- TABLA SEMÁNTICA DE PROYECTOS -->
+            <section style="margin-top: 35px;">
+                <h2><i class="fa-solid fa-table"></i> Resumen de Trayectoria y Proyectos</h2>
+                <div class="table-container">
+                    <table class="custom-table">
+                        <caption>Historial de Proyectos y Experiencias Técnicas</caption>
+                        <thead>
+                            <tr>
+                                <th>Año</th>
+                                <th>Categoría</th>
+                                <th>Nombre del Proyecto</th>
+                                <th>Tecnologías Utilizadas</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="2">2025</td>
+                                <td>Desarrollo Web</td>
+                                <td>Rediseño Portal Académico ATI</td>
+                                <td>HTML5, CSS Grid, JavaScript</td>
+                                <td><span class="badge active">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>UI/UX Design</td>
+                                <td>Sistema de Inventario Móvil</td>
+                                <td>Figma, CSS Variables, Flexbox</td>
+                                <td><span class="badge active">Completado</span></td>
+                            </tr>
+                            <tr>
+                                <td>2026</td>
+                                <td>Backend / API</td>
+                                <td>Servidor REST de Evaluaciones</td>
+                                <td>Python, MySQL, JSON API</td>
+                                <td><span class="badge pending">En Proceso</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">Total de Proyectos Documentados</td>
+                                <td>3 Proyectos</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </section>
+
+            <!-- GALERÍA ROTATIVA E INTERACTIVA -->
+            <section style="margin-top: 35px;">
+                <h2><i class="fa-solid fa-photo-film"></i> Galería de Trabajos y Prototipos</h2>
+                <p style="font-size:0.9em; color:#64748B; margin-top:-8px;">Haz clic en cualquier imagen para verla en pantalla completa.</p>
+                
+                <div class="carousel-wrapper">
+                    <button class="carousel-btn prev" id="prevBtn" title="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="carousel-btn next" id="nextBtn" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+
+                    <div class="carousel-container" id="carouselContainer">
+                        <figure class="gallery-card">
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="foto1.png">
+                                <img src="foto1.png" alt="Maquetación de Prototipos UI/UX" loading="lazy">
+                            </picture>
+                            <figcaption>Maquetación de Prototipos UI/UX</figcaption>
+                        </figure>
+
+                        <figure class="gallery-card">
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="foto2.jpeg">
+                                <img src="foto2.jpeg" alt="Diseño de Arquitectura de Redes" loading="lazy">
+                            </picture>
+                            <figcaption>Diseño de Arquitectura de Redes</figcaption>
+                        </figure>
+
+                        <figure class="gallery-card">
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="foto3.jpeg">
+                                <img src="foto3.jpeg" alt="Trabajo Colaborativo en Laboratorio" loading="lazy">
+                            </picture>
+                            <figcaption>Trabajo Colaborativo en Laboratorio</figcaption>
+                        </figure>
+
+                        <figure class="gallery-card">
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="foto4.jpeg">
+                                <img src="foto4.jpeg" alt="Configuración y Soporte de Servidores" loading="lazy">
+                            </picture>
+                            <figcaption>Configuración y Soporte de Servidores</figcaption>
+                        </figure>
+
+                        <figure class="gallery-card">
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="foto5.jpeg">
+                                <img src="foto5.jpeg" alt="Programación y Frontend Web" loading="lazy">
+                            </picture>
+                            <figcaption>Programación y Frontend Web</figcaption>
+                        </figure>
+
+                        <figure class="gallery-card">
+                            <picture>
+                                <source media="(min-width: 768px)" srcset="foto1.png">
+                                <img src="foto1.png" alt="Pruebas de Software y Control de Calidad" loading="lazy">
+                            </picture>
+                            <figcaption>Pruebas de Software y Control de Calidad</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; <time datetime="2026">2026</time> Carlos Miguel - Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- MODAL PARA VER IMÁGENES AMPLIADAS -->
+    <div id="imageModal" class="modal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img class="modal-content" id="modalImg">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
+    <script>
+        // JS para fijar/desfijar el menú lateral
+        document.querySelector('.pin').onclick = () => 
+            document.getElementById('sidebar').classList.toggle('fixed');
+
+        // JS para el carrusel de rotación continua
+        const carousel = document.getElementById('carouselContainer');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const scrollAmount = 320;
+
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        // Giro/Rotación automática continua
+        let autoRotate = setInterval(() => {
+            if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }, 3000);
+
+        // Detener la rotación cuando se pasa el cursor sobre el carrusel
+        carousel.addEventListener('mouseenter', () => clearInterval(autoRotate));
+        carousel.addEventListener('mouseleave', () => {
+            autoRotate = setInterval(() => {
+                if (carousel.scrollLeft + carousel.clientWidth >= carousel.scrollWidth - 10) {
+                    carousel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                }
+            }, 3000);
+        });
+
+        // JS para la visualización ampliada en modal (Lightbox)
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalCaption = document.getElementById('modalCaption');
+        const closeModal = document.getElementById('closeModal');
+        const cards = document.querySelectorAll('.gallery-card');
+
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const img = card.querySelector('img');
+                const caption = card.querySelector('figcaption').textContent;
+                
+                modalImg.src = img.src;
+                modalCaption.textContent = caption;
+                modal.classList.add('show');
+                
+                // Detener el auto-rotate mientras la imagen está ampliada
+                clearInterval(autoRotate);
+            });
+        });
+
+        // Cerrar modal al pulsar la 'X' o fuera de la imagen
+        closeModal.onclick = () => modal.classList.remove('show');
+        modal.onclick = (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
+        };
+    </script>
+</body>
+</html>
